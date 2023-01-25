@@ -1,4 +1,4 @@
-import EmployeeRoutes from '@/routes/authentication-routes'
+import EmployeeRoutes from '@/routes/employee-routes'
 import cors from 'cors'
 import express from 'express'
 

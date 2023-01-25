@@ -29,32 +29,44 @@ model SessionEmployee {
 }
 
 model Job {
-  id             Int      @id @default(autoincrement())
+  id             Int                @id @default(autoincrement())
   name           String
   description    String
   remote         Boolean
   value          Int
   responsible_id Int
   open           Boolean
-  created_at     DateTime @default(now())
-  responsible    Employee @relation(fields: [responsible_id], references: [id])
+  created_at     DateTime           @default(now())
+  responsible    Employee           @relation(fields: [responsible_id], references: [id])
+  applicants     ApplicantsOnJobs[]
+  applicantId    Int?
 }
 
 model Applicant {
-  id               Int               @id @default(autoincrement())
-  email            String            @unique
+  id               Int                @id @default(autoincrement())
+  email            String             @unique
   password         String
   name             String
   age              Int
   experiences      String
-  created_at       DateTime          @default(now())
-  sessionApplicant sessionApplicant?
+  created_at       DateTime           @default(now())
+  sessionApplicant SessionApplicant?
+  jobId            Int?
+  jobs             ApplicantsOnJobs[]
 }
 
-model sessionApplicant {
+model SessionApplicant {
   id           Int       @id @default(autoincrement())
   token        String    @unique
   applicant_id Int       @unique
   created_at   DateTime  @default(now())
   Applicant    Applicant @relation(fields: [applicant_id], references: [id])
+}
+
+model ApplicantsOnJobs {
+  id           Int       @id @default(autoincrement())
+  job_id       Int
+  applicant_id Int
+  job          Job       @relation(fields: [job_id], references: [id])
+  applicant    Applicant @relation(fields: [applicant_id], references: [id])
 }
