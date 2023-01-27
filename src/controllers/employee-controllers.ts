@@ -1,6 +1,13 @@
-import { newEmployee, newJob } from '@/protocols'
-import { serviceCreateEmployee, serviceGetAllEmployees, serviceGetMyJobs, serviceLoginEmployee } from '@/services/employee-services'
-import { serviceCreateJob, serviceGetAllJobs, serviceGetJobById } from '@/services/job-service'
+import { newEmployee, newJob, updateJobType } from '@/protocols'
+import { serviceCreateEmployee, serviceGetAllEmployees, serviceLoginEmployee } from '@/services/employee-services'
+import {
+  serviceCreateJob,
+  serviceDeleteJob,
+  serviceGetAllJobs,
+  serviceGetJobById,
+  serviceGetMyJobs,
+  serviceUpdateJob,
+} from '@/services/job-service'
 import { DataEmployeeToken } from '@/utils/jwt'
 import { Request, Response } from 'express'
 
@@ -60,21 +67,42 @@ export async function createNewEmployeeController(req: Request, res: Response): 
   }
 }
 
-export async function getAllEmployeeController(req: Request, res: Response): Promise<Response>{
-  try{
+export async function getAllEmployeeController(req: Request, res: Response): Promise<Response> {
+  try {
     const employees = await serviceGetAllEmployees()
     return res.status(200).send(employees)
-  }catch{
+  } catch {
     return res.sendStatus(500)
   }
 }
 
-export async function getMyJobsController(req: Request, res: Response): Promise<Response>{
-  try{
+export async function getMyJobsController(req: Request, res: Response): Promise<Response> {
+  try {
     const employee = res.locals.employee as DataEmployeeToken
     const jobs = await serviceGetMyJobs(employee.id)
     return res.status(200).send(jobs)
-  }catch{
+  } catch {
+    return res.sendStatus(500)
+  }
+}
+
+export async function deleteJobController(req: Request, res: Response): Promise<Response> {
+  try {
+    const id = parseInt(req.params.id)
+    await serviceDeleteJob(id)
+    return res.sendStatus(200)
+  } catch {
+    return res.sendStatus(500)
+  }
+}
+
+export async function updateJobController(req: Request, res: Response): Promise<Response> {
+  try {
+    const id = parseInt(req.params.id)
+    const job = req.body as updateJobType
+    await serviceUpdateJob(id, job)
+    return res.sendStatus(200)
+  } catch {
     return res.sendStatus(500)
   }
 }

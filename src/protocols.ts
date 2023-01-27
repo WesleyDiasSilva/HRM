@@ -11,3 +11,11 @@ export type newEmployee = {
   password: null | string
   role: number
 }
+
+export type updateJobType = {
+  name: string
+  description: string
+  remote: boolean
+  value: number
+  open: boolean
+}

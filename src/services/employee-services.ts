@@ -45,11 +45,4 @@ export async function serviceGetAllEmployees(){
   }
 }
 
-export async function serviceGetMyJobs(id: number){
-  try{
-    const jobs = await getMyJobs(id);
-    return jobs;
-  }catch{
-    return []
-  }
-}
+
