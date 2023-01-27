@@ -1,5 +1,6 @@
 import { newEmployee } from '@/protocols'
 import { createEmployee, findEmployee, getAllEmployees } from '@/repositories/employee'
+import { getMyJobs } from '@/repositories/job'
 import { upsertSession } from '@/repositories/sessions-employee'
 import { decryptHash, encryptPassword } from '@/utils/bcrypt'
 import { createTokenEmployee } from '@/utils/jwt'
@@ -39,6 +40,15 @@ export async function serviceGetAllEmployees(){
   try{
     const employees = await getAllEmployees()
     return employees;
+  }catch{
+    return []
+  }
+}
+
+export async function serviceGetMyJobs(id: number){
+  try{
+    const jobs = await getMyJobs(id);
+    return jobs;
   }catch{
     return []
   }

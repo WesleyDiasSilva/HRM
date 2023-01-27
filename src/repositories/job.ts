@@ -33,3 +33,21 @@ export async function getJobById(id: number) {
     return null
   }
 }
+
+export async function getMyJobs(id: number){
+  try{
+    const jobs = await prisma.job.findMany({
+      where: {
+        responsible_id: id
+      }, 
+      include: {
+        applicants: {
+          select: {applicant: {select: {name: true, experiences: true, age: true, email: true}}}
+        }
+      }
+    })
+    return jobs;
+  }catch{
+    return []
+  }
+}

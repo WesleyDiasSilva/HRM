@@ -1,5 +1,5 @@
 import { newEmployee, newJob } from '@/protocols'
-import { serviceCreateEmployee, serviceGetAllEmployees, serviceLoginEmployee } from '@/services/employee-services'
+import { serviceCreateEmployee, serviceGetAllEmployees, serviceGetMyJobs, serviceLoginEmployee } from '@/services/employee-services'
 import { serviceCreateJob, serviceGetAllJobs, serviceGetJobById } from '@/services/job-service'
 import { DataEmployeeToken } from '@/utils/jwt'
 import { Request, Response } from 'express'
@@ -64,6 +64,16 @@ export async function getAllEmployeeController(req: Request, res: Response): Pro
   try{
     const employees = await serviceGetAllEmployees()
     return res.status(200).send(employees)
+  }catch{
+    return res.sendStatus(500)
+  }
+}
+
+export async function getMyJobsController(req: Request, res: Response): Promise<Response>{
+  try{
+    const employee = res.locals.employee as DataEmployeeToken
+    const jobs = await serviceGetMyJobs(employee.id)
+    return res.status(200).send(jobs)
   }catch{
     return res.sendStatus(500)
   }

@@ -4,6 +4,7 @@ import {
   getAllEmployeeController,
   getAllJobsController,
   getJobByIdController,
+  getMyJobsController,
   loginEmployeeController,
 } from '@/controllers/employee-controllers'
 import {
@@ -24,7 +25,7 @@ EmployeeRoutes.post('/employee/login', validate(loginEmployeeModel), loginEmploy
   .get('/employee/job/:id', getJobByIdController)
   .use(authenticationEmployeeRole)
   .post('/employee/job', validate(newJobModel), createNewJobController)
-  .get('/employee/my-jobs')
+  .get('/employee/my-jobs', getMyJobsController)
   .put('/employee/job/:id')
   .delete('/employee/job/:id')
   .use(authenticationEmployeeAdmin)
