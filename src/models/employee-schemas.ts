@@ -8,5 +8,5 @@ export const loginEmployeeModel = Joi.object({
 export const newEmployeeModel = Joi.object({
   email: Joi.string().required().email(),
   name: Joi.string().min(3).required(),
-  role: Joi.number().positive().required()
-}) 
+  role: Joi.number().positive().required(),
+})

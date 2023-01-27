@@ -25,7 +25,6 @@ export async function authenticationEmployee(req: Request, res: Response, next: 
 
 export function authenticationEmployeeRole(req: Request, res: Response, next: NextFunction) {
   const role: number = res.locals.employee.role
-  console.log(role)
   if (role < 2) return res.status(401).send('Unautorized')
   next()
 }

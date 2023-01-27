@@ -46,11 +46,11 @@ export async function serviceDeleteJob(id: number) {
   }
 }
 
-export async function serviceUpdateJob(id: number, job: updateJobType){
-  try{
+export async function serviceUpdateJob(id: number, job: updateJobType) {
+  try {
     await updateJob(id, job)
     return null
-  }catch{
+  } catch {
     return null
   }
 }

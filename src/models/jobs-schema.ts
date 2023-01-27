@@ -12,5 +12,5 @@ export const updateJobModel = Joi.object({
   description: Joi.string().max(128).required(),
   remote: Joi.boolean().required(),
   value: Joi.number().positive().required(),
-  open: Joi.boolean().required()
+  open: Joi.boolean().required(),
 })

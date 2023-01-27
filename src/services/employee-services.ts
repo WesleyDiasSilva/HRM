@@ -1,6 +1,5 @@
 import { newEmployee } from '@/protocols'
 import { createEmployee, findEmployee, getAllEmployees } from '@/repositories/employee'
-import { getMyJobs } from '@/repositories/job'
 import { upsertSession } from '@/repositories/sessions-employee'
 import { decryptHash, encryptPassword } from '@/utils/bcrypt'
 import { createTokenEmployee } from '@/utils/jwt'
@@ -23,26 +22,24 @@ export async function serviceLoginEmployee(email: string, hash: string) {
   }
 }
 
-export async function serviceCreateEmployee(newEmployee: newEmployee){
-  try{
-    const employeeExists = await findEmployee(newEmployee.email);
-    if(employeeExists) return false;
-    const hash = encryptPassword(newEmployee.email);
+export async function serviceCreateEmployee(newEmployee: newEmployee) {
+  try {
+    const employeeExists = await findEmployee(newEmployee.email)
+    if (employeeExists) return false
+    const hash = encryptPassword(newEmployee.email)
     newEmployee.password = hash
     await createEmployee(newEmployee)
-    return true;
-  }catch{
-    return false;
+    return true
+  } catch {
+    return false
   }
 }
 
-export async function serviceGetAllEmployees(){
-  try{
+export async function serviceGetAllEmployees() {
+  try {
     const employees = await getAllEmployees()
-    return employees;
-  }catch{
+    return employees
+  } catch {
     return []
   }
 }
-
-
