@@ -8,4 +8,3 @@ export async function findEmployee(email: string) {
     return null
   }
 }
-

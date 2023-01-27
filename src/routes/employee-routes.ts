@@ -1,4 +1,9 @@
-import { createNewJobController, loginEmployeeController } from '@/controllers/employee-controllers'
+import {
+  createNewJobController,
+  getAllJobsController,
+  getJobByIdController,
+  loginEmployeeController,
+} from '@/controllers/employee-controllers'
 import { authenticationEmployee, authenticationEmployeeRole } from '@/middlewares/authentication'
 import { validate } from '@/middlewares/validation'
 import { loginEmployeeModel } from '@/models/employee-schemas'
@@ -9,8 +14,8 @@ const EmployeeRoutes = Router()
 
 EmployeeRoutes.post('/employee/login', validate(loginEmployeeModel), loginEmployeeController)
   .use(authenticationEmployee)
-  .get('/employee/job')
-  .get('/employee/job/:id')
+  .get('/employee/job', getAllJobsController)
+  .get('/employee/job/:id', getJobByIdController)
   .use(authenticationEmployeeRole)
   .post('/employee/job', validate(newJobModel), createNewJobController)
   .get('/employee/my-jobs')

@@ -1,6 +1,6 @@
 import { newJob } from '@/protocols'
 import { serviceLoginEmployee } from '@/services/employee-services'
-import { serviceCreateJob } from '@/services/job-service'
+import { serviceCreateJob, serviceGetAllJobs, serviceGetJobById } from '@/services/job-service'
 import { DataEmployeeToken } from '@/utils/jwt'
 import { Request, Response } from 'express'
 
@@ -8,11 +8,10 @@ type BodyLogin = {
   email: string
   password: string
 }
-export async function loginEmployeeController(req: Request, res: Response) {
+export async function loginEmployeeController(req: Request, res: Response): Promise<Response> {
   const { email, password } = req.body as BodyLogin
   try {
     const { status, token, employee } = await serviceLoginEmployee(email as string, password as string)
-    console.log(token)
     if (status) return res.status(200).send({ token, name: employee?.name, role: employee?.role })
     return res.status(400).send('Access denied!')
   } catch {
@@ -20,14 +19,33 @@ export async function loginEmployeeController(req: Request, res: Response) {
   }
 }
 
-export async function createNewJobController(req: Request, res: Response) {
+export async function createNewJobController(req: Request, res: Response): Promise<Response> {
   try {
     const newJob = req.body as newJob
     const { id } = res.locals.employee as DataEmployeeToken
     await serviceCreateJob(newJob, id)
     return res.status(201).send('Created!')
-  } catch (e){
-    console.log(e)
+  } catch (e) {
+    return res.status(500).send('Service currently unavailable, please try again later!')
+  }
+}
+
+export async function getAllJobsController(req: Request, res: Response): Promise<Response> {
+  try {
+    const jobs = await serviceGetAllJobs()
+    return res.status(200).send(jobs)
+  } catch {
+    return res.status(500).send([])
+  }
+}
+
+export async function getJobByIdController(req: Request, res: Response): Promise<Response> {
+  try {
+    const id = parseInt(req.params.id)
+    const job = await serviceGetJobById(id)
+    if (!job) return res.status(404).send('Not found!')
+    return res.status(200).send(job)
+  } catch {
     return res.status(500).send('Service currently unavailable, please try again later!')
   }
 }

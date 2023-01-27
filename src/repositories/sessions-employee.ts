@@ -22,8 +22,8 @@ export async function upsertSession(employee_id: number, token: string) {
 
 export async function findSession(id: number) {
   try {
-    const session = await prisma.sessionEmployee.findFirst({ where: { employee_id: id } });
-    return session;
+    const session = await prisma.sessionEmployee.findFirst({ where: { employee_id: id } })
+    return session
   } catch {
     return null
   }

@@ -16,8 +16,7 @@ export async function serviceLoginEmployee(email: string, hash: string) {
 
     if (!status) return { status: false, token: '', employee: foundEmployee }
     return { status: true, token: tokenJwt, employee: foundEmployee }
-  } catch (e){
-    console.log(e)
+  } catch (e) {
     return { status: false, token: '', employee: null }
   }
 }
