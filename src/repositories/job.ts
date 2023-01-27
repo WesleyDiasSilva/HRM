@@ -9,7 +9,9 @@ export async function createJob(newJob: newJob, responsible_id: number) {
 
 export async function getAllJobs() {
   try {
-    const jobs = await prisma.job.findMany()
+    const jobs = await prisma.job.findMany({
+      include: { applicants: { select: { applicant: true } }, responsible: { select: { name: true, email: true } } },
+    })
     return jobs
   } catch {
     return []
@@ -21,6 +23,9 @@ export async function getJobById(id: number) {
     const job = await prisma.job.findFirst({
       where: {
         id,
+      },
+      include: {
+        responsible: { select: { name: true } },
       },
     })
     return job

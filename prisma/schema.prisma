@@ -43,7 +43,6 @@ model Job {
   created_at     DateTime           @default(now())
   responsible    Employee           @relation(fields: [responsible_id], references: [id])
   applicants     ApplicantsOnJobs[]
-  applicantId    Int?
 
   @@map("jobs")
 }
@@ -57,7 +56,6 @@ model Applicant {
   experiences      String
   created_at       DateTime           @default(now())
   sessionApplicant SessionApplicant?
-  jobId            Int?
   jobs             ApplicantsOnJobs[]
 
   @@map("applicants")

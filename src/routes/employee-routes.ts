@@ -1,12 +1,18 @@
 import {
+  createNewEmployeeController,
   createNewJobController,
+  getAllEmployeeController,
   getAllJobsController,
   getJobByIdController,
   loginEmployeeController,
 } from '@/controllers/employee-controllers'
-import { authenticationEmployee, authenticationEmployeeRole } from '@/middlewares/authentication'
+import {
+  authenticationEmployee,
+  authenticationEmployeeAdmin,
+  authenticationEmployeeRole,
+} from '@/middlewares/authentication'
 import { validate } from '@/middlewares/validation'
-import { loginEmployeeModel } from '@/models/employee-schemas'
+import { loginEmployeeModel, newEmployeeModel } from '@/models/employee-schemas'
 import { newJobModel } from '@/models/jobs-schema'
 import { Router } from 'express'
 
@@ -21,5 +27,8 @@ EmployeeRoutes.post('/employee/login', validate(loginEmployeeModel), loginEmploy
   .get('/employee/my-jobs')
   .put('/employee/job/:id')
   .delete('/employee/job/:id')
+  .use(authenticationEmployeeAdmin)
+  .post('/employee/create', validate(newEmployeeModel), createNewEmployeeController)
+  .get('/employee', getAllEmployeeController)
 
 export default EmployeeRoutes

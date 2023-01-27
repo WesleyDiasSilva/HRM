@@ -1,5 +1,5 @@
-import { newJob } from '@/protocols'
-import { serviceLoginEmployee } from '@/services/employee-services'
+import { newEmployee, newJob } from '@/protocols'
+import { serviceCreateEmployee, serviceGetAllEmployees, serviceLoginEmployee } from '@/services/employee-services'
 import { serviceCreateJob, serviceGetAllJobs, serviceGetJobById } from '@/services/job-service'
 import { DataEmployeeToken } from '@/utils/jwt'
 import { Request, Response } from 'express'
@@ -47,5 +47,24 @@ export async function getJobByIdController(req: Request, res: Response): Promise
     return res.status(200).send(job)
   } catch {
     return res.status(500).send('Service currently unavailable, please try again later!')
+  }
+}
+
+export async function createNewEmployeeController(req: Request, res: Response): Promise<Response> {
+  try {
+    const newEmployee = req.body as newEmployee
+    await serviceCreateEmployee(newEmployee)
+    return res.status(201).send('Created!')
+  } catch {
+    return res.sendStatus(500)
+  }
+}
+
+export async function getAllEmployeeController(req: Request, res: Response): Promise<Response>{
+  try{
+    const employees = await serviceGetAllEmployees()
+    return res.status(200).send(employees)
+  }catch{
+    return res.sendStatus(500)
   }
 }
