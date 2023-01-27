@@ -7,7 +7,7 @@ export function encryptPassword(password: string) {
 
 export function decryptHash(hash: string, password: string) {
   try {
-    const result = bcrypt.compareSync(password, hash)
+    const result = bcrypt.compareSync(hash, password)
     return result
   } catch {
     return false

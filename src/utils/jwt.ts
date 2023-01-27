@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-type DataEmployeeToken = {
+export type DataEmployeeToken = {
   name: string
   id: number
   role: number

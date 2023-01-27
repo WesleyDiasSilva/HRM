@@ -3,6 +3,7 @@ import { ObjectSchema } from 'joi'
 
 export function validate(schema: ObjectSchema) {
   return (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body)
     const { error } = schema.validate(req.body, {
       abortEarly: false,
     })
@@ -10,7 +11,7 @@ export function validate(schema: ObjectSchema) {
     if (!error) {
       next()
     } else {
-      res.status(400).send('Invalid!')
+      res.status(400).send(error.details)
     }
   }
 }

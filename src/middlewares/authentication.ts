@@ -12,7 +12,7 @@ export async function authenticationEmployee(req: Request, res: Response, next: 
     if (!employee) return res.status(401).send('Unautorized')
     const session = await findSession(employee.id)
     if (session && session.token === token) {
-      req.body.employee = employee
+      res.locals.employee = employee
       next()
     } else {
       return res.status(401).send('Unautorized')
@@ -22,6 +22,8 @@ export async function authenticationEmployee(req: Request, res: Response, next: 
   }
 }
 
-export async function authenticationEmployeeRole(req: Request, res: Response, next: NextFunction){
-
+export function authenticationEmployeeRole(req: Request, res: Response, next: NextFunction) {
+  const role: number = req.body.employee
+  if (role < 1) return res.status(401).send('Unautorized')
+  next()
 }
