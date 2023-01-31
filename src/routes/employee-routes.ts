@@ -22,7 +22,7 @@ import { Router } from 'express'
 const EmployeeRoutes = Router()
 
 EmployeeRoutes.post('/employee/login', validate(loginEmployeeModel), loginEmployeeController)
-  // .use(authenticationEmployee)
+  .use(authenticationEmployee)
   .get('/employee/job', getAllJobsController)
   .get('/employee/job/:id', getJobByIdController)
   .use(authenticationEmployeeRole)

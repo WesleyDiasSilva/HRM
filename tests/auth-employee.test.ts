@@ -1,4 +1,4 @@
-import server from "../src/server";
+import server from '@/app'
 import supertest from "supertest";
 import { prisma } from "@/database/connection";
 
@@ -6,7 +6,6 @@ const api = supertest(server);
 
 beforeAll(async () => {
   await prisma.$connect();
-  await prisma.job.deleteMany({});
   await prisma.sessionEmployee.deleteMany({})
 })
 

@@ -13,7 +13,7 @@ const config = {
 
 export function createTokenEmployee(data: DataEmployeeToken) {
   const token = jwt.sign(data, config.secret ?? '', config.expires)
-  return token
+  return "Bearer "+token;
 }
 
 export function validateTokenEmployee(token: string) {
