@@ -16,6 +16,9 @@ export function errorHandling(error: ApplicationError | Error, req: Request, res
 
     case name === 'ConflictsError':
       return res.status(httpStatus.CONFLICT).send({ message })
+
+    case name === "BadRequest":
+      return res.status(httpStatus.BAD_REQUEST).send({ message })
   }
 
   return res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Internal Server Error')

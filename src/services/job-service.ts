@@ -1,3 +1,4 @@
+import { badRequestError } from '@/errors/badRequest-error'
 import { notFoundError } from '@/errors/notFound-error'
 import { newJob, updateJobType } from '@/protocols'
 import { createJob, deleteJob, getAllJobs, getJobById, getMyJobs, updateJob } from '@/repositories/job'
@@ -12,6 +13,7 @@ export async function serviceGetAllJobs() {
 }
 
 export async function serviceGetJobById(id: number) {
+  if(isNaN(id)) throw badRequestError("id invalid!")
   const job = await getJobById(id)
   if (!job) throw notFoundError()
   return job
